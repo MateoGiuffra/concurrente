@@ -275,8 +275,7 @@ Hay K maquinas de lavado listas para funcionar. Cada persona que quiere utilizar
 servicio (en este ejemplo no modelaremos a quieres no lo requieran) espera que haya alguna
 maquina disponible para serle asignada segun disponibilidad, carga su ropa y recibe su beeper.
 Luego, se va a mirar locales, y si al terminar su beeper a ́un no parpadea, espera que lo haga
-para volver al local y retirar sus prendas (Si el beeper parpadea mientras la persona a ́un esta
-mirando locales, esta lo ignora hasta que est ́a por retirarse). Modele este escenario por medio de
+para volver al local y retirar sus prendas. Modele este escenario por medio de
 semaforos. 
 Procure que no suceda que una persona vaya a retirar su ropa cuando se termino de
 procesar la de alguien mas. O sea el beeper es unico por persona. 
@@ -287,29 +286,7 @@ procesar la de alguien mas. O sea el beeper es unico por persona.
 - Espera a que suene el beeper
 - Retira sus prendas
 
-
-// */
-// Semaphore[] maquinas = new Semaphore[K]{1 ... } // fuerte
-// Semaphore[] beepers = new Semaphore[K]{1 ... } 
-// Semaphore[] notificador = new Semaphore[K]{0 ... } 
-
-// thread maquina{
-//     // limpiando
-//     while(true){
-//         notificador[idMaquina].release()
-//     }
-// }
-
-// thread cliente (idMaquina){
-//     maquinas[idMaquina].acquiere()
-//     // pone su ropa
-//     beepers[idMaquina].acquiere()
-//     // va a recorrer locales 
-//     notificador[idMaquina].acquiere()
-//     // va a retirar la ropa
-//     beepers[idMaquina].release()
-//     maquinas[idMaquina].release()
-// }
+*/
 
 
 Semaphore permisoUsar(1)
@@ -344,33 +321,7 @@ thread persona(){
 }
 
 /*
-Ejercicio 6. Se avecina el partido super-mega cl ́asico entre dos equipos que llamaremos BJ y RP.
-Para evitar conflictos en la cancha, se dispuso el siguiente mecanismo de control de acceso: 
-No se permitir a que la diferencia entre la gente de la hinchada de BJ y la de gente de la hinchada
-RP sea mayor que 1 (toda persona que va a ver el partido es de alguno de los dos equipos).
-Cada persona que llegue a la cancha debe asegurarse de esta regla le permite el acceso. Si no,
-esperar ́a hasta que pase alguien del equipo opuesto de manera de conseguir acceso. Una vez
-que una persona entr ́o a la cancha, se quedar ́a hasta finalizar el partido (que no modelaremos,
-estipulando que este sigue indefinidamente).
-a) Modele este comportamiento utilizando Sem ́aforos.
-b) Extienda la soluci ́on anterior contemplando que la cancha tiene una capacidad de N per-
-sonas. Cada persona que logra entrar a la cancha ocupa un lugar, y como estos nunca
-se liberan, en alg ́un momento la cancha estar ́a llena. En ese momento, toda persona que
-llegue deber ́a retirarse sin tener la posibilidad de ingreso. Aseg ́urese, tambi ́en, que ninguna
-persona se quede esperando indefinidamente.
-c) El partido ya se jug ́o y result ́o uno de los m ́as  ́epicos de la historia. Por ello, se planific ́o pro-
-yectarlo en el cine de la ciudad para que la gente pueda verlo en pantalla gigante. La gente
-que desea asistir s ́olo debe ir al cine y retirar una entrada, disponible en un mostrador del
-lobby (suponemos que las personas las toman de a una, aunque es posible que dos personas
-se acerquen a buscar su entrada en momentos muy cercanos. No hay distinci ́on entre per-
-sonas de un equipo y otro). La cantidad total de entradas es M , y si alguien llega luego de
-que se hayan agotado, se retirar ́a del cine. En un horario determinado, el personal del cine
-quita las entradas del mostrador y habilita el acceso a la sala las personas que tengan su
-entrada. Luego, se espera a que todas las personas se hayan acomodado en alguna butaca,
-el personal cierra las puertas, y comienza la proyecci ́on. Como en el caso anterior, pode-
-mos pensar que la gente que entr ́o se queda mirando el partido indefinidamente. Modele
-este nuevo escenario utilizando Sem ́aforos. Preste atenci ́on a que el personal del cine no se
-quede esperando que se sienten m ́as personas que las que las que retiraron entradas.
+Ejercicio 6.
 */
 
 // a
@@ -461,3 +412,69 @@ thread espectador (){
         }
     }
 }
+
+// Ej 8
+/*
+Personas usando 8 toiletes. 
+Si hay personas usando aunquea sea uno o hay persona/s esperando usar el baño, entonces los empleados los esperan para entrar 
+Si estan limpiando, no puede entrar nadie hasta que terminen de limpiar. 
+*/
+global Sempaphore permisoLimpiar = new Semaphore(1); 
+global Semaphore permisoUsar = new Semaphore(1);
+global Semaphore mutexProridad = new Semaphore(1);
+global Semaphore mutexUsuario = new Semaphore(1);
+global Semaphore mutexPLimpieza = new Semaphore(1);
+global Semaphore toilet = new Semaphore(8); 
+global int usuarios = 0; 
+global int personasLimpieza = 0; 
+
+
+// escritores
+thread PLimpieza() {
+    mutexPLimpieza.acquiere();
+    personaLimpieza++;
+    if personasLimpieza == 1 {
+        permisoUsar.acquire();
+    }
+    mutexPLimpieza.release(); 
+
+    permisoLimpiar.acquire(); 
+    // Limpiar el baño 
+    permisoLimpiar.release(); 
+
+    mutexPLimpieza.acquire(); 
+    personasLimpieza--; 
+    if personasLimpieza == 0{
+        permisoUsar.release();
+    }
+    mutexPLimpieza.release(); 
+}
+
+// lectores
+thread Usuario() {
+    mutexPrioridad.acquiere();
+    permisoUSar.acquire(); 
+    mutexUsuario.acquire():
+    usuario++; 
+    if usuarios == 1 {
+        permisoLimpiar.acquiere(); 
+    }
+    mutexUsuario.release(); 
+    permisoUsuar.release(); 
+    mutexPrioridad.release();
+
+    toilet.acquiere();
+    // lo uso
+    toilet.release();
+
+    mutexUusario.acquire();
+    usuarios--
+    if usuario == 0{
+        permisoLimpiar.release();
+    }
+    mutexUsuario.release(); 
+}
+
+// ejercicio 9
+
+// identificar roles activos y recursos compartidos

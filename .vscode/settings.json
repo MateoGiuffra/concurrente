@@ -2,7 +2,20 @@
     "files.associations": {
         "ej-2": "c",
         "ej.C": "cpp",
-        "semaforos_5.C": "cpp"
+        "semaforos_5.C": "cpp",
+        "simulacro1.C": "cpp",
+        "simulacro_parte1.C": "cpp",
+        "simulacro_parte2.C": "cpp",
+        "SplitMutex.C": "cpp",
+        "Productor-Consumidor.C": "cpp",
+        "PrioridadLectores.C": "cpp",
+        "PrioridadEscritores.C": "cpp",
+        "SimulacroParte1.C": "cpp",
+        "SimulacroParte2.C": "cpp",
+        "Semaforos5.C": "cpp",
+        "Semaforos_Practica_5.C": "cpp",
+        "ParaMuchos.C": "cpp",
+        "ParaUnos.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "github.copilot.enable": {
