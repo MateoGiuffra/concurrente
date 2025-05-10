@@ -271,12 +271,14 @@ Ejercicio 4.
 En un famoso shopping de la ciudda se agrego un puesto de tintorerıa automatica
 para que la gente pueda dejar su ropa mientras recorre los locales. Novedosamente, estas maquinas 
 entregan un beeper a la gente que parpadea para indicar que la ropa ya esta lista para ser retirada. 
-Hay K maquinas de lavado listas para funcionar. Cada persona que quiere utilizar el
-servicio (en este ejemplo no modelaremos a quieres no lo requieran) espera que haya alguna
-maquina disponible para serle asignada segun disponibilidad, carga su ropa y recibe su beeper.
+Hay K maquinas de lavado listas para funcionar.
+ Cada persona que quiere utilizar el servicio:
+ -espera que haya alguna maquina disponible para serle asignada segun disponibilidad
+ - carga su ropa
+ - y recibe su beeper.
 Luego, se va a mirar locales, y si al terminar su beeper a ́un no parpadea, espera que lo haga
-para volver al local y retirar sus prendas. Modele este escenario por medio de
-semaforos. 
+para volver al local y retirar sus prendas. 
+Modele este escenario por medio de semaforos. 
 Procure que no suceda que una persona vaya a retirar su ropa cuando se termino de
 procesar la de alguien mas. O sea el beeper es unico por persona. 
 
@@ -293,6 +295,7 @@ Semaphore permisoUsar(1)
 Semaphore hayMaq(0)
 global proximaMaq = -1
 Semaphore permisoCargarRopa[K]{0 ...}
+Semaphore permisoDescargar[K]{1 ...}
 Semaphore beepers[K]{0 ...}
 
 thread maquina(id){
@@ -300,8 +303,10 @@ thread maquina(id){
         permisoUsar.acquiere()
         proximaMaq = id 
         hayMaq.release()
-        permisoCargar[id].acquire()
-        // lavar
+        permisoCargarRopa[id].acquire()
+        
+        lavar()
+        
         beepers[miMaq].release()
         permisoDescargar[id].acquiere()
     }
