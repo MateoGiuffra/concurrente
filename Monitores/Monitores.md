@@ -1,5 +1,5 @@
 ## Monitores 
-
+[TEMA ACTUAL]
 ### Teoria 
 - Un monitor tiene N methods y Condition Variables (en esta materia solo tenemos una pero pueden haber mas)
 - Dos listas: 
@@ -13,4 +13,4 @@
     wait(): Duerme al thread. Lo manda a la cola. 
     notify() / notifyAll(): 
         notify() despierta al primer thread. Lo saca de la cola y lo pone en la lista de conjuntos para competir por el lock. 
-        notifyAll() lo mismo pero despierta a TODOS. Se usa cuando el thread que te interesa no es el primero. 
+        notifyAll() lo mismo pero despierta a TODOS. Por lo general se usa cuando el thread que te interesa no es el primero o tenes mas de un tipo de thread en la cola 
