@@ -1,8 +1,8 @@
 ## Semaforos 
 
 ### Practicas
-Los ejercicios del tp1 los hice en papel, entonces no hay registro. 
-Del 2 hice la mayoria en codigo, no te fies porque seguramente no todos estan bien ni tampoco esta completo, miralos para tener una idea. 
+Los ejercicios del tp 1 los hice en papel, entonces no hay registro. 
+Del 2 hice la mayoria en codigo, no te confies porque seguramente no todos esten bien ni tampoco hice todos, miralos para tener una idea. 
 
 ### Esquemas 
 Su explicacion estan en el mismo codigo, no voy a hacer un readme para explicarlas: [Esquemas](https://github.com/MateoGiuffra/concurrente/blob/main/Semaforos/Esquemas)
