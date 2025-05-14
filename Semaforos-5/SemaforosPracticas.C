@@ -1,3 +1,5 @@
+
+
 /*Ejercicio 1. Se busca computar la suma de los primeros N n ́umeros impares utilizando dos
 threads llamados generador y acumulador, que deben cooperar entre s ́ı para resolver esta tarea.
 Contamos con dos variables globales impar, que comienza inicializada en N, y suma, que comienza
