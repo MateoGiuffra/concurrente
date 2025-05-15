@@ -1,5 +1,5 @@
 # Programacion Concurrente
-### Repositorio para guardar los ejercicios de la materia Programacion Concurrente de la Universidad Nacional de Quilmes. Cursada 2025.
+### Repositorio para guardar los ejercicios de la cursada 2025 de Programacion Concurrente de la Universidad Nacional de Quilmes.
 ## Site
 https://sites.google.com/view/pconctpiunq
 
