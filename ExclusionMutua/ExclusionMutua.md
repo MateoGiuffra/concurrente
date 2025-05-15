@@ -17,11 +17,11 @@ Muchooos algoritmos para garantizar exclusion mutua.
 
 ### Tips para resolver la practica
 - Hace interleaving a cada rato, asi en algun momento te va a caer la ficha de que cual traza rompe el programa.  
-- Usa un thread hasta la mitad de camino (ponele que T1), guardate en una variable local su valor. Luego, deja correr normal otro thread (T2) y cuando termine, pisa lo que hizo con T2 con la variable local de T1.
+- Usa un thread hasta la mitad de camino (ponele que T1), guardate en una variable local su valor. Luego, deja correr normal otro thread (T2) y cuando termine, pisa lo que hizo T2 con la variable local de T1.
 
 ### Demostraciones
-Podes demostrar con las tipicas demostraciones matematicas: absurdo o contradiccion. O a manopla. 
-A mi me gusta demostrar a manopla, por lo tanto te dejo estas preguntas guias: 
+Podes demostrar por absurdo/contradiccion o a manopla. 
+A mi me gusta demostrar a manopla así que te dejo estás preguntas guías que me ayudaron a demostrar:
 #### Mutex: 
     ¿Puede haber mas de un thread en la Seccion Critica?
 #### Garantia de Entrada:    
