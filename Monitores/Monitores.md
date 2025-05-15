@@ -1,5 +1,5 @@
 ## Monitores 
-[TEMA ACTUAL]
+##### [ TEMA ACTUAL ]
 ### Teoria 
 - Un monitor tiene N methods y Condition Variables (en esta materia solo tenemos una pero pueden haber mas)
 - Dos listas: 
