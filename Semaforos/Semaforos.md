@@ -22,5 +22,5 @@ Su explicacion estan en el mismo codigo, no voy a hacer un readme para explicarl
 | Semaforo(0)  | Cuando necesitas que pase x accion primero antes de ejecutar otra |
 | Semaforo(N)  | Cuando tenes un numero finito de semaforos y NO tiene tanta importancia conocer cual semaforo es |
 | Semaforo[N]  | Cuando tenes un numero finito de semaforos y SI tiene tanta importancia conocer cual semaforo es |
-    - Tambien sirve hacer contadores (por ej lectores y escritores lo usan)
-    - Variable global para conocer el id. Un thread al ejecutar cambia la variable global con SU ID. 
+- Tambien sirve hacer contadores (por ej lectores y escritores lo usan)
+- Variable global para conocer el id. Un thread al ejecutar cambia la variable global con SU ID. 
