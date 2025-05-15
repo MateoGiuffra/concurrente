@@ -1,12 +1,12 @@
 # Programacion Concurrente
-### Repositorio para guardar los ejercicios de la materia Programacion Concurrente de la Universidad Nacional de Quilmes. Cursada primer cuatri del 2025.
+### Repositorio para guardar los ejercicios de la materia Programacion Concurrente de la Universidad Nacional de Quilmes. Cursada 2025.
 ## Site
 https://sites.google.com/view/pconctpiunq
 
-## Lenguaje: 
+## Lenguaje 
 La materia usa Java pero el pseudo codigo lo escribi en C por comodidad
 
-## TEMAS
+## Temas
 ### Exclusion Mutua
 ### Semaforos 
 ### Monitores 
