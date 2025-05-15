@@ -17,7 +17,7 @@ Muchooos algoritmos para garantizar exclusion mutua.
 
 ### Tips para resolver la practica
 - Hace interleaving a cada rato, asi en algun momento te va a caer la ficha de que cual traza rompe el programa.  
-- Usa un thread hasta la mitad de camino (ponele que T1), guardate en una variable local su valor. Luego, deja correr normal otro thread (T2) y cuando termine, pisa lo que hizo T2 con la variable local de T1.
+- Usa un thread hasta la mitad de camino (ponele que T1) y guarda su valor en una variable local. Antes de settearle ese valor local a la variable global, cámbiate a T2 y dejalo correr normal. Cuando termine T2, cambia a T1 y pisa lo que hizo T2 con la variable local de T1. 
 
 ### Demostraciones
 Podes demostrar por absurdo/contradiccion o a manopla. 
