@@ -9,7 +9,7 @@ Su explicacion estan en el mismo codigo, no voy a hacer un readme para explicarl
 
 ### Teoria
 - Entender que ya no van a haber threads preguntando todo el rato si es su turno. 
-- Si un thread quiere hacer x operacion, primero tener que poner un semaforo envolviendo la operacion, si hay permisos lo hace, si no se duerme. 
+- Si un thread quiere hacer x operacion, por lo general se resuelve envolviendo la operación/es con un semaforo, si hay permisos lo hace, si no se duerme. 
 - Para despertarlo, usas un release
 - Podes ordenar a los threads en una cola (F.I.F.O) para evitar starvation. Es caro, por default no funciona asi y a veces no es necesario, pero cuando lo es solo decis que es fuerte o lo inicializas con true.  
 
