@@ -10,11 +10,10 @@
 - Si otro thread quiere ejecutar cualquier method del monitor y alguien mas tiene el lock, se va a dormir en el conjunto de monitores. 
 
 #### Hay dos methods principales: 
-wait(): Duerme al thread. Lo manda a la cola. 
-notify() / notifyAll(): 
-notify() despierta al primer thread. Lo saca de la cola y lo pone en la lista de conjuntos para competir por el lock. 
-notifyAll() lo mismo pero despierta a TODOS.
+- wait() Duerme al thread. Lo manda a la cola. 
+- notify() Despierta al primer thread. Lo saca de la cola y lo pone en la lista de conjuntos para competir por el lock. 
+- notifyAll() Lo mismo pero despierta a TODOS.
 
 
 ### ¿Cuando usar notify o notifyAll?
-Por lo general se usa notifyAll cuando el thread que te interesa no es el primero o tenes mas de un tipo de thread en la cola
+Por lo general se usa notifyAll cuando el thread que te interesa no es el primero o tenes mas de un tipo de thread en la cola. 
