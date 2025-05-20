@@ -1,6 +1,5 @@
 package ejercicio_1;
 // Esta es la version que piden en el PDF.
-
 public class Contador {
     private int contador;
 
