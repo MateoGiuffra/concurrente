@@ -1,5 +1,5 @@
-## Mensajes
-##### [ TEMA ACTUAL ]
+## Mensajes ##### [ TEMA ACTUAL ]
+
 ### Thread vs Process
 
 #### Thread
@@ -12,7 +12,6 @@
 
 * Instancias de memoria distintas
 
----
 
 ### Canales
 
@@ -39,7 +38,6 @@ Hay 3:
 * Si hacés `receive` sin mensajes, espera.
 * No es costoso un channel, se pueden reutilizar.
 
----
 
 ### Mensajes
 
@@ -48,14 +46,12 @@ Hay 3:
 * **Dato importante**: cuando necesitás exclusividad, podés mandar canales por canales porque son serializables.
 * Normalmente usamos `Request()` para guardar las variables porque le podés inventar campos y sus valores.
 
----
 
 ### Sincronico vs asincronico
 
 * Cuando estamos en contexto **sincrónico**, los métodos son **bloqueantes**, por lo tanto el `send` espera un `receive` y el `receive` espera un `send`.
 * En cambio en **asincrónica** solo el `receive` es bloqueante.
 
----
 
 ### DATOS DE LA NOTACIÓN
 
@@ -63,13 +59,11 @@ Hay 3:
 * Esas variables van a ser una **copia** de cada thread y si cambia la variable padre no va a cambiar la variable del thread.
 * Antes esto se solucionaba con un canal intermedio, pero ahora se hace así.
 
----
 
 ### NO HACER
 
 * No podés usar un thread dentro de un process para editar la variable compartida porque justamente aprendemos mensajes para evitar usar variables compartidas (a excepción del canal).
 
----
 
 ### Tips
 
@@ -78,13 +72,11 @@ Hay 3:
     * En la primera solución solo crea un thread cuando recibe
     * En la segunda los crea siempre
 
----
 
-# Hydra
+### Hydra
 
 * En Hydra no se puede usar la keyword `process`, solo `thread`, pero en pseudocódigo se usa `process` porque ahora no hay memoria compartida
 
----
 
 ### \[Dudas]
 
