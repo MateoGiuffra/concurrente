@@ -1,5 +1,5 @@
 ## Monitores 
-##### [ TEMA ACTUAL ]
+
 ### Notacion
 Cuando escribimos pseudocodigo, hay dos formas: 
 #### Monitor NombreDeLaClase
