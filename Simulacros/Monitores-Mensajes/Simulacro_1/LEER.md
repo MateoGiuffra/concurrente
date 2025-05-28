@@ -1,2 +1,2 @@
-El simulacro parte 1 esta resuelto segun es la solucion del profe, asi que confia
-Parte 2 por el momento (y quizas siempre) esta sin hacer
+Los ejercicios del simulacro parte 1 estan resueltos por el profesor, asi que confia
+Y la parte 2, por el momento, (y quizas siempre) esta sin hacer
