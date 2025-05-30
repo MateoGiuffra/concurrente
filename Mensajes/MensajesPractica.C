@@ -121,3 +121,151 @@ process Servidor {
 }
 
 // Ej 6
+a)
+Channel canalT = new Channel()
+Channel canalR = new Channel()
+
+process T {
+    while (true) {
+        mensaje = canalT.receive()
+        mensajeCodificado = codificar(mensaje)
+        canalR.send(mensajeCodificado)
+    }
+}
+
+process C {
+    miMensaje = read()
+    canalT.send(miMensaje)
+}
+
+b)
+Channel canalT = new Channel()
+Channel canalR = new Channel()
+
+process T {
+    canalAMandar = canalR
+    while (true){
+        req = canalT.receive();
+        if (canalAMandar != req.canalCliente){
+            canalAMandar = req.canalCliente
+        }
+        mensaje = req.mensaje()
+        mensajeCodificado = codificar(mensaje)
+        canalAMandar.send(mensajeCodificado)
+    }
+}
+c)
+Channel canalT = new Channel()
+Channel canalR = new Channel()
+Channel canalK = new Channel()
+
+process T {
+    canalAMandar = canalR
+    while (true){
+        req = canalT.receive();
+        key = canalK.receive();
+        if (canalAMandar != req.canalCliente){
+            canalAMandar = req.canalCliente
+        }
+        mensaje = req.mensaje()
+        mensajeCodificado = codificar(mensaje, key)
+        canalAMandar.send(mensajeCodificado)
+    }
+}
+
+
+//Ej 7
+//a
+
+process P {
+    while (true) {
+        req = canal3.receive() // espero msj del cliente, si no hay espero
+        canal1.send(req) // se la mandamos a S para que procese
+        calculo = canal2.receive() // recibimos de S el calculo
+        canal4.send(calculo) // mandamos el calculo al cliente
+    }
+}
+
+//b version vieja
+process P {
+    repeat(N){
+        thread () {
+            while (true) {
+                req = canal3.receive() // espero msj del cliente, si no hay espero
+                canal1.send(req) // se la mandamos a S para que procese
+                calculo = canal2.receive() // recibimos de S el calculo
+                canal4.send(calculo) // mandamos el calculo al cliente
+            }
+        }
+    }
+}
+
+//b
+process P {
+    Channel canalP;
+    canalP.send([])
+    repeat(N){ // creo N threads
+        thread(canalP){ // cada thread por siempre va a esperar mensajes del cliente y se los pasa a S
+            while(true){
+                 msjCliente = canal3.receive() // espero msj del cliente, si no hay espero
+                 canal1.send(msjCliente) // se la mandamos a S para que procese
+                 calculo = canal2.receive() // recibimos de S el calculo, si todavia no termina espero
+//el tema es que si otro thread que ANTES ya hizo un send a S, me puede mandar
+//su respuesta a mi, y no es la del cliente, se la mandaria a otra persona.
+//Entonces, lo agrego a la lista
+                copiaDeLaLista = canalP.receive()
+                copiaDeLaLista.add(calculo)
+                // si ya tengo todas las respuestas, las devuelvo en orden al cliente
+                if (copiaDeLaLista.size() == N) {
+                    for c in copiaDeLaLista {
+                     canal4.send(c) // mandamos el calculo al cliente correspondiente
+                    }
+                canalP.send(copiaDeLaLista)
+                }
+            }
+        }
+    }
+}
+
+process C1 {
+    canal3.send(algo)
+//    NOS QUEDAMOS ACA
+    2 = canal4.receive()
+}
+
+process C2 {
+    canal3.send(algo)
+//    NOS QUEDAMOS ACA
+    canal4.receive()
+}
+
+// ahora yo cree N threads, ponele que 5
+// ahora tengo a 5 threads corriendo concurrentemente esperando mensajes
+// puedo suponer
+// el primer thread receive un mensaje por el canal 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
