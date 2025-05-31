@@ -24,8 +24,10 @@ Buzones donde dejas y sacas mensajes. Poseen dos methods principales: `send(T)` 
 
 Hay 3:
 
-1. **Uno a uno**
-2. **Uno a muchos**: O sea cada proceso (A,B,C...) deja un mensaje en el buzón de Z y Z solo recibe, no le interesa quién manda.
+1. **Uno a uno**:
+* Un canal para solo dos process
+2. **Uno a muchos**: 
+    * O sea cada proceso (A,B,C...) deja un mensaje en el buzón de Z y Z solo recibe, no le interesa quién manda.
 3. **Muchos a muchos**:
 
     * Hay un buzón donde todos los procesos dejan un mensaje y lo puede agarrar cualquiera, no es definido.
@@ -63,15 +65,14 @@ Hay 3:
 
 ### NO HACER
 
-* No podés usar un thread dentro de un process para editar la variable compartida porque justamente aprendemos mensajes para evitar usar variables compartidas (a excepción del canal).
+* En contexto de mensajes, no podes, dentro de un thread, editar variables porque estarías compartiendo variables (...) y justamente aprendemos mensajes para evitar usar variables compartidas (a excepción del canal).
 
 
 ### Tips
 
-* En caso de trabajar de forma **SINCRÓNICA**, es importante poner el `receive` **antes** de generar un thread que ponerlo dentro del thread, porque:
-
+* Si vas a generar un thread dentro de un process, chequea si podes hacer el `receive` **antes** de generarlo, en vez de un while true {thread(){...}}, porque:
     * En la primera solución solo crea un thread cuando recibe
-    * En la segunda los crea siempre
+    * En la segunda los crea siempre, haciendo explotar la CPU y memoria 
 
 
 ### Hydra
