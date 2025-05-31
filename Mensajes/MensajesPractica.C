@@ -247,7 +247,52 @@ process C2 {
 // puedo suponer
 // el primer thread receive un mensaje por el canal 3
 
+// EJ8 
+process Timer(Channel timerCh, int freq, int min){
+    chList = new Channel()
+    chList.send([])
+    while (true){
+        req = timerCh.receive()
+        clientList = chList.receive().append(req.ch)
+        chList.send(clientList)
+        clientList.append(req.ch)
+        if (len(clienList) == min){
+            thread clock(freq, chList)
+        }
+    }
+}
 
+thread Clock(int freq, Channel cdList){
+    while(true){
+        sleep(freq)
+        // mandar ticks
+        myList = chList.receive()
+        chList.send(myList)
+        for (ch in myList) {
+            ch.send("Tick")
+        }
+    }
+}
+
+// b
+process Cell(List<Channel> vecinos, Channel myCh, Channel timerCh, bool alive){
+    // registrar al timer
+    estado = alive
+    myTimerCh = new Channel()
+    timerCh.send(Request(myTimerCh))
+    while (true){
+        if(myTimerCh.receive() == "Tick"){
+            for ch in vecinas {
+                ch.send(estado)
+                repeat (8){
+                    int cantVivas += myCh.receive()
+                    estado = nextState(cantVivas, estado)
+                }
+            }
+        }
+    }
+    
+}
 
 
 
