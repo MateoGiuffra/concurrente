@@ -49,7 +49,7 @@ process Agencia() {
     }
 }
 
-//c
+//c este esta mal 
 Channel agencia = new Channel()
 
 process Agencia (List<Chanell> autos ,List<Chanell> hoteles, List<Chanell> vuelos) {
@@ -77,4 +77,58 @@ process Agencia (List<Chanell> autos ,List<Chanell> hoteles, List<Chanell> vuelo
         }
     }
 
+}
+
+// c 
+Channel agencia = new Channel()
+process Agencia (autos, hoteles, vuelos){
+    while (true){
+        fecha, canalCliente = agencia.receive()
+        // no puedo suponer que tienen la misma longitud
+            for i in range(len(autos)){
+                thread (i, fecha, canalCliente){
+                    Channel canalInterno = new Channel();
+                    autos[i].send((fecha, canalInterno))
+                    hoteles[i].send((fecha, canalInterno))
+                    vuelos[i].send((fecha, canalInterno))
+                    // el problema de este es que, la fecha es la misma 
+                    // y cambia el auto | hotel | vuelo pero yo ya mande
+                    // la respuesta al cliente con alguno.
+                    res = canalInterno.receive() && canalInterno.receive() && canalInterno.receive()
+                    canalCliente.send(fecha, res)
+                }
+        }
+    }
+}
+
+// solucion franco
+process Agencia(){
+    while(true){
+        fecha, canalCliente = canalAgencia.receive();
+        thread (fecha, canalCliente){
+            Channel canalInterno = new Channel(); 
+            threadConsultar(autos, fecha, canalInterno)
+            threadConsultar(hoteles, fecha, canalInterno)
+            threadConsultar(vuelos, fecha, canalInterno)
+            res = True 
+            repeat (3){
+                res = res && canalInterno.receive();
+            }
+            canalCliente.send(res)
+        }
+    }
+}
+
+thread threadConsultar(servicios, fecha, canalInterno){
+    aux = new Channel()
+    for service in servicios{
+        service.send((fecha, canalInterno))
+    }
+    found = false 
+    int = 0
+    while (i < len(servicios) && !found){
+        found = aux.receive();
+        i++; 
+    }
+    canalInterno.send(found)
 }
