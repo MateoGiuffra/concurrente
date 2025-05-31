@@ -214,7 +214,7 @@ process P {
     canalClientes.send(0) // inicializo el contador
     canalP.send([])
     repeat(N){ // creo N threads
-        thread(canalP){ 
+        thread(canalP, canalClientes){ 
             while(true){
                 msjCliente = canal3.receive() // recibo msj del cliente, si no hay espero
                 canal1.send(msjCliente) // se la mandamos a S para que procese
@@ -313,7 +313,7 @@ process Cell(List<Channel> vecinos, Channel myCh, Channel timerCh, bool alive){
                 ch.send(estado)
                 repeat (8){
                     int cantVivas += myCh.receive()
-                    estado = nextState(cantVivas, estado)
+                    estado = nextState(cantVivas, estado) // esta funcion hay que implementarla nosotros (...)
                 }
             }
         }
