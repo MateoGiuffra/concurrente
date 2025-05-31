@@ -220,7 +220,10 @@ process P {
                     for c in copiaDeLaLista {
                      canal4.send(c) // mandamos el calculo al cliente correspondiente
                     }
-                canalP.send(copiaDeLaLista)
+                    canalP.send([])
+                  } else {
+                    canalP.send(copiaDeLaLista)
+                
                 }
             }
         }
