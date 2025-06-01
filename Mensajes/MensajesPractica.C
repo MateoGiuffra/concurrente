@@ -216,7 +216,8 @@ process P {
     repeat(N){ // creo N threads
         thread(canalP, canalClientes){ 
             while(true){
-                msjCliente = canal3.receive() // recibo msj del cliente, si no hay espero
+                msjCliente, canalCliente = canal3.receive() // recibo msj del cliente, si no hay espero
+                canalCliente.send(canalClientes)
                 canal1.send(msjCliente) // se la mandamos a S para que procese
                 calculo = canal2.receive() // recibimos de S el calculo, si todavia no termina espero
                 copiaDeLaLista = canalP.receive()
@@ -224,7 +225,7 @@ process P {
                 // si ya tengo todas las respuestas, las devuelvo en orden al cliente
                 if (copiaDeLaLista.size() == N) {
                     for index, c in enumerate(copiaDeLaLista) {
-                     canal4.send((c, index, canalClientes)) // mandamos el calculo al cliente correspondiente
+                     canal4.send((c, index)) // mandamos el calculo al cliente correspondiente
                     }
                     canalP.send([]) // limpio la lista
                   } else {
@@ -236,17 +237,19 @@ process P {
 }
 
 process C1 {
-    canal3.send(calculoAHacer)
-    calculo, numCliente, canalClientes = canal4.receive()
-    // recibo un calculo, el numero que indica a quien pertenece el calculo y el canalClientes
-
+    Channel miCanal = new Channel()
+    canal3.send((calculoAHacer, miCanal))
+    canalClientes = miCanal.receive()
+    
     // recibo el num / turno actual
     numActual = canalClientes.receive()
     // me guardo mi copia
     miNum = numActual
     // incremento y devuelvo
     canalClientes.send(numeroActual++)
-
+    
+    calculo, numCliente = canal4.receive()
+    // recibo un calculo, el numero que indica a quien pertenece el calculo 
     while (true){
         // si el numero es igual al mio, significa que es mi calculo: 
         if (miNum == numCliente){
