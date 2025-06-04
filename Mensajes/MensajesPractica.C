@@ -193,7 +193,7 @@ process P {
     }
 }
 
-//b version vieja
+//b con esto ya alcanza
 process P {
     repeat(N){
         thread () {
@@ -207,30 +207,57 @@ process P {
     }
 }
 
-//b 🟨
+
+
+// b llegue a esta version para asegurar que los clientes lo reciban en orden
+// process P {
+//     Channel canalP = new Channel();
+//     Channel canalClientes = new Channel()
+//     canalClientes.send(0) // inicializo el contador que esta sincronizado con la lista
+//     canalP.send([])
+
+//     repeat(N){
+//         thread(canalP, canalClientes){ 
+//             while(true){
+//                 calculoAHacerDelCliente, canalCliente = canal3.receive() 
+                
+//                 turno = canalClientes.receive() // genero un turno para el cliente
+//                 canalCliente.send(turno)
+//                 canalClientes.send(numeroActual++)
+
+//                 canal1.send(calculoAHacerDelCliente) // se la mandamos a S para que procese
+//                 calculo = canal2.receive() 
+                
+//                 copiaDeLaLista = canalP.receive()
+//                 copiaDeLaLista.add(calculo)
+//                 canalP.send(copiaDeLaLista)
+
+//                 canal4.send(copiaDeLaLista) 
+//             }
+//         }
+//     }
+// }
+
 process P {
     Channel canalP = new Channel();
-    Channel canalClientes = new Channel()
-    canalClientes.send(0) // inicializo el contador
     canalP.send([])
-    repeat(N){ // creo N threads
+
+    repeat(N){
         thread(canalP, canalClientes){ 
             while(true){
-                msjCliente, canalCliente = canal3.receive() // recibo msj del cliente, si no hay espero
-                canalCliente.send(canalClientes)
-                canal1.send(msjCliente) // se la mandamos a S para que procese
-                calculo = canal2.receive() // recibimos de S el calculo, si todavia no termina espero
-                copiaDeLaLista = canalP.receive()
-                copiaDeLaLista.add(calculo)
-                // si ya tengo todas las respuestas, las devuelvo en orden al cliente
-                if (copiaDeLaLista.size() == N) {
-                    for index, c in enumerate(copiaDeLaLista) {
-                     canal4.send((c, index)) // mandamos el calculo al cliente correspondiente
-                    }
-                    canalP.send([]) // limpio la lista
-                  } else {
-                    canalP.send(copiaDeLaLista)
-                }
+                calculoAHacerDelCliente, canalCliente = canal3.receive() 
+                
+                canal1.send(calculoAHacerDelCliente)
+                calculo = canal2.receive() 
+                
+                listaDeCalculo = canalP.receive()
+                listaDeCalculo.add(calculo)
+                canalP.send(listaDeCalculo)
+                
+                turno = len(listaDeCalculo) - 1
+                canalClientes.send(turno)
+
+                canal4.send(listaDeCalculo) 
             }
         }
     }
@@ -239,42 +266,21 @@ process P {
 process C1 {
     Channel miCanal = new Channel()
     canal3.send((calculoAHacer, miCanal))
-    canalClientes = miCanal.receive()
+    miTurno = miCanal.receive()
     
-    // recibo el num / turno actual
-    numActual = canalClientes.receive()
-    // me guardo mi copia
-    miNum = numActual
-    // incremento y devuelvo
-    canalClientes.send(numeroActual++)
-    
-    calculo, numCliente = canal4.receive()
-    // recibo un calculo, el numero que indica a quien pertenece el calculo 
-    while (true){
-        // si el numero es igual al mio, significa que es mi calculo: 
-        if (miNum == numCliente){
-            // . .  hago lo que necesito con el calculo y resto uno en canalClientes.
-            numActual = canalClientes.receive()
-            canalClientes.send(max(numActual--, 0))
-            return // salgo 
-        } else {
-            // si no es mi numero, devuelvo el calculo con su numero de cliente
-            canal4.send((calculo, numCliente))
-            // esto indefinidamente hasta que recibir el calculo correcto
-        }
-    }
+    lista = canal4.receive()
+    miCalculo = lista[miTurno]
 }
 
-process C2 {
-    canal3.send(algo)
-//    NOS QUEDAMOS ACA
-    canal4.receive()
-}
 
-// ahora yo cree N threads, ponele que 5
-// ahora tengo a 5 threads corriendo concurrentemente esperando mensajes
-// puedo suponer
-// el primer thread receive un mensaje por el canal 3
+// y esta es la solucion propuesta por los profes
+// SOLUCION
+// Crear dos threads:
+// - uno que reciba del cliente y manda a S y 
+// - otro que solo recibe por S y manda al cliente
+// - hacer un canal con n cantidad de mensajes, por cada recibido se saca uno
+
+
 
 // EJ8 ✅
 // los hizo Nico en clase (el profe)

@@ -18,7 +18,9 @@
         "ParaUnos.C": "cpp",
         "Teorica.C": "cpp",
         "SemaforosPracticas.C": "cpp",
-        "MensajesPractica.C": "cpp"
+        "MensajesPractica.C": "cpp",
+        "mensajes.C": "cpp",
+        "SistemaDeMonitoreo.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "github.copilot.enable": {
