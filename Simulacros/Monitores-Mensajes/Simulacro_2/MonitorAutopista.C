@@ -34,8 +34,10 @@ Monitor Autopista{
 Monitor Autopista{
     cantKartings = 0 
     cantParticulares = 0
+    cantKartingsEsperando = 0
+
     particularEntraPista(){
-        while (cantKartings > 0){
+        while (!(cantKartings == 0 && cantKartingsEsperando == 0)){
             wait()
         }
         cantParticulares++
@@ -51,14 +53,16 @@ Monitor Autopista{
     
     kartingEntraPista(){
         while (cantKartings > 0 || cantParticulares > 0){
+            cantKartingsEsperando++
             wait()
         }
-        cantKartings++
+        cantKartingsEsperando--
+        cantKartings = 1
         //entra
     }
     
     kartingSalePista(){
-        cantKartings-- 
+        cantKartings = 0
         notifyAll()
     }
 }
