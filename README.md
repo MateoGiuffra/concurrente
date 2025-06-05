@@ -2,6 +2,8 @@
 ### Repositorio para guardar los ejercicios de la cursada 2025 de la materia Programacion Concurrente de la Universidad Nacional de Quilmes.
 ## Site
 https://sites.google.com/view/pconctpiunq
+## Playlist
+https://www.youtube.com/watch?v=dZAV1NZYSio&list=PLiroaJ49ZKkJ3fCdH2m1AmgWlFMdezpiq
 
 ## Lenguaje 
 En la materia se programa con Java pero muchas veces se usa pseudo código. Para diferenciar con los .java, uso los .C donde deshabilite la corrección de sintaxis
@@ -14,3 +16,5 @@ En la materia se programa con Java pero muchas veces se usa pseudo código. Para
 | Semaforos       | [TP](https://github.com/MateoGiuffra/concurrente/blob/main/Semaforos)      |[T+T](https://github.com/MateoGiuffra/concurrente/blob/main/Semaforos/Semaforos.md) |
 | Monitores       | [TP](https://github.com/MateoGiuffra/concurrente/blob/main/Monitores)      |[T+T](https://github.com/MateoGiuffra/concurrente/blob/main/Monitores/Monitores.md) |
 | Mensajes         | [TP](https://github.com/MateoGiuffra/concurrente/blob/main/Mensajes)       |[T+T](https://github.com/MateoGiuffra/concurrente/blob/main/Mensajes/Mensajes.md) |
+
+
