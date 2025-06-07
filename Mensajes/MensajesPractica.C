@@ -193,7 +193,7 @@ process P {
     }
 }
 
-//b con esto ya alcanza
+//para hacer el b, con esto ya alcanza ✅
 process P {
     repeat(N){
         thread () {
@@ -207,37 +207,42 @@ process P {
     }
 }
 
+// esta es la solucion propuesta por los profes 
+// SOLUCION
+// Crear dos threads:
+// - uno que reciba del cliente y manda a S y 
+// - otro que solo recibe por S y manda al cliente
+// - hacer un canal con n cantidad de mensajes, por cada recibido se saca uno
+
+// 🟨 esta la hice yo siguiendo la solucion de los profes, no esta verificada por nadie (aparte de mi), pero creo que funciona
+process P(){
+    Channel canalMensajes = new Channel()
+    repeat(20){
+        canalMensajes.send("mensaje")
+    }
+    thread (canalMensajes){
+        while (true){
+            calculo = canal3.receive()
+            canalMensajes.receive()
+            canal1.send(calculo) 
+        }
+    }
+
+    thread (cantMensajes){
+        while (true){
+            res = canal1.receive()
+            canalMensajes.send("mensaje")
+            canal4.send(res)
+        }
+    }
+}
 
 
-// b llegue a esta version para asegurar que los clientes lo reciban en orden
-// process P {
-//     Channel canalP = new Channel();
-//     Channel canalClientes = new Channel()
-//     canalClientes.send(0) // inicializo el contador que esta sincronizado con la lista
-//     canalP.send([])
-
-//     repeat(N){
-//         thread(canalP, canalClientes){ 
-//             while(true){
-//                 calculoAHacerDelCliente, canalCliente = canal3.receive() 
-                
-//                 turno = canalClientes.receive() // genero un turno para el cliente
-//                 canalCliente.send(turno)
-//                 canalClientes.send(numeroActual++)
-
-//                 canal1.send(calculoAHacerDelCliente) // se la mandamos a S para que procese
-//                 calculo = canal2.receive() 
-                
-//                 copiaDeLaLista = canalP.receive()
-//                 copiaDeLaLista.add(calculo)
-//                 canalP.send(copiaDeLaLista)
-
-//                 canal4.send(copiaDeLaLista) 
-//             }
-//         }
-//     }
-// }
-
+// Y yo queria responder la pregunta, entonces hice esto siguiendo mi version
+// para garantizar que le llegue a cada cliente su calculo.
+// Basicamente sincronizo el indice con el turno del cliente, asi le paso al cliente su turno
+// y ademas la lista para que él elija su propio calculo
+// 🟨 
 process P {
     Channel canalP = new Channel();
     canalP.send([])
@@ -251,10 +256,11 @@ process P {
                 calculo = canal2.receive() 
                 
                 listaDeCalculo = canalP.receive()
+                turno = len(listaDeCalculo) 
+
                 listaDeCalculo.add(calculo)
                 canalP.send(listaDeCalculo)
                 
-                turno = len(listaDeCalculo) - 1
                 canalClientes.send(turno)
 
                 canal4.send(listaDeCalculo) 
@@ -262,7 +268,6 @@ process P {
         }
     }
 }
-
 process C1 {
     Channel miCanal = new Channel()
     canal3.send((calculoAHacer, miCanal))
@@ -271,14 +276,6 @@ process C1 {
     lista = canal4.receive()
     miCalculo = lista[miTurno]
 }
-
-
-// y esta es la solucion propuesta por los profes
-// SOLUCION
-// Crear dos threads:
-// - uno que reciba del cliente y manda a S y 
-// - otro que solo recibe por S y manda al cliente
-// - hacer un canal con n cantidad de mensajes, por cada recibido se saca uno
 
 
 
@@ -328,6 +325,29 @@ process Cell(List<Channel> vecinos, Channel myCh, Channel timerCh, bool alive){
         }
     }
     
+}
+
+process Timer(Channel canalPedidos, int freq, int cantMinClientes){
+    Channel canalClientes = new Channel 
+    canalClientes.send([])
+    while (true){
+        req = canalPedidos.receive()
+        list = canalClientes.receive()
+        canalClientes.send(list.append(req.canalCliente))
+        if (len(list) + 1) >= cantMinClientes 
+            thread Clock(freq, canalClientes)
+    }
+}
+
+process Clock(freq, canalClientes){
+    while(true){
+        sleep(freq)
+        list = canalClientes.receive()
+        canalClientes.send(list)
+        for ch in list{
+            ch.send("Tick")
+        }
+    }
 }
 
 

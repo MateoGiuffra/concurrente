@@ -2,11 +2,14 @@ Monitor PrioridadEscritores {
 
     writers = 0
     readers = 0
-    waitingWriters = 0
+    waitingWriters = 1
 
     bool canRead(){
         return writers == 0 && waitingWriters == 0
     }
+    condition = [L1]
+    lock = []
+    E2
 
     bool canWrite(){
         return writers == 0 && readers == 0
@@ -16,8 +19,8 @@ Monitor PrioridadEscritores {
         while (!canWrite()){
             waitingWriters++; 
             wait()
+            waitingWriters--;
         }
-        waitingWriters--;
         writers = 1 
         escribir()
     }

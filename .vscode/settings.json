@@ -24,7 +24,8 @@
         "Telescopio.C": "cpp",
         "MonitorAutopista.C": "cpp",
         "Prioridad-Lectores.C": "cpp",
-        "Prioridad-Escritores.C": "cpp"
+        "Prioridad-Escritores.C": "cpp",
+        "AgenciaDeViajesMio.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "github.copilot.enable": {

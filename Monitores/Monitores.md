@@ -14,7 +14,8 @@ Cuando escribimos pseudocodigo, hay dos formas:
     - otra que funciona como una cola (F.I.F.O) la cual esta asociada a la Condition Variable.
 - Hay un unico Lock por monitor. 
 - Solo puede ejecutar un thread a la vez cualquier method del monitor. Se dice que ese thread tiene el lock. 
-- Si otro thread quiere ejecutar cualquier method del monitor y alguien mas tiene el lock, se va a dormir en el conjunto de monitores. 
+- Si otro thread quiere ejecutar cualquier method del monitor y alguien mas tiene el lock, se va a dormir en el conjunto de threads que compiten por el lock.
+- Cuando un thread termina de ejecutar o va a dormirse por un wait, libera el lock y lo va a tomar alguno del conjunto de threads que compiten por el lock.  
 
 #### Hay dos methods principales: 
 - wait() Duerme al thread. Lo manda a la cola. 
