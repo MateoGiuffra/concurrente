@@ -1,10 +1,10 @@
-//Esta solucion sirve si hay mas de un productor y consumidor.
-// El mutex va donde la cantidad es mayor a 1
-Object[] buffer = new Object(N); 
-Semaphore vacio = new Semaphore(N);
-Semaphore lleno = new Semaphore(0);
-Semaphore mutexProducir = new Semaphore(1);
-Semaphore mutexConsumir = new Semaphore(1);
+// Esta solucion sirve para N producciones 
+// Y si hay mas de un productor y consumidor.
+Object[] buffer = new Object[N]; 
+Semaphore vacio = new Semaphore(N);// este es para los N espacion disponibles que hay inicialmente
+Semaphore lleno = new Semaphore(0);// este es para los consumidor, primero no pueden consumir porque esta vacia 
+Semaphore mutexProducir = new Semaphore(1); // mutex para que un productor no produzca en el mismo lugar que otro 
+Semaphore mutexConsumir = new Semaphore(1); // mutex para que dos consumidores no quieran consumir en el mismo lugar 
 global int inicio = 0;
 global int fin = 0;
 
@@ -18,10 +18,10 @@ consumir( buffer ) {
 thread Productor {
     while(true){
         vacio.acquire()
-        mutexProducir().acquire();//esta es la diferencia
+        mutexProducir().acquire();
         buffer[inicio] = producir();
-        fin = ( fin + 1 ) % N;
-        mutexProducir().release();//esta es la diferencia
+        inicio = ( inicio + 1 ) % N;
+        mutexProducir().release();
         lleno.release()
     }
 }
@@ -29,10 +29,10 @@ thread Consumidor {
     while(true){
         // inicialmente no hay nada para consumir, por lo tanto tengo que esperar a que me avisen
         lleno.acquire();
-        mutexConsumir.acquire(); //esta es la diferencia
+        mutexConsumir.acquire(); 
         consumir(buffer[fin]);
         fin = ( fin + 1 ) % N;
-        mutexConsumir.release(); //esta es la diferencia
+        mutexConsumir.release(); 
         vacio.release(); 
     }
 }

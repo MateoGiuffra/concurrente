@@ -6,6 +6,7 @@ Del 2 hice la mayoria en codigo, no te confies porque seguramente no todos esten
 
 ### Esquemas 
 Su explicacion estan en el mismo codigo, no voy a hacer un readme para explicarlas [Esquemas](https://github.com/MateoGiuffra/concurrente/blob/main/Semaforos/Esquemas)
+[Link a la clase de esquemas](https://www.youtube.com/watch?v=R8Sl82XPcIQ&list=PLiroaJ49ZKkJ3fCdH2m1AmgWlFMdezpiq&index=8)
 
 ### Teoria
 - Entender que ya no van a haber threads preguntando todo el rato si es su turno. 
