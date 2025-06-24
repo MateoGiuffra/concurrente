@@ -25,7 +25,9 @@
         "MonitorAutopista.C": "cpp",
         "Prioridad-Lectores.C": "cpp",
         "Prioridad-Escritores.C": "cpp",
-        "AgenciaDeViajesMio.C": "cpp"
+        "AgenciaDeViajesMio.C": "cpp",
+        "SemaforosPractica2.C": "cpp",
+        "Semaforos.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "github.copilot.enable": {
