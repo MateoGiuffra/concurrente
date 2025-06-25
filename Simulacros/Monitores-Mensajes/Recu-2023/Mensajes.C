@@ -1,106 +1,93 @@
-// es mi solución
+// es mi solución y esta verificada por un profe, asi que confia
 
 Channel canalSesiones = new Channel()
 process ServidorFirmas(){
-    Channel historialDeUsuarios = new Channel();
-    List<(id, clavePrincipal)> historial = [];
-    historialDeUsuarios.send(historial)
+    Clave clavePrincipal = generar_clave()
     while (true){
         reqSesion = canalSesiones.receive()
-        thread (reqSesion, historialDeUsuarios){
-            userId = reqSesion.id
-            canalCliente = reqSesion.channel
-            Request reqRes = new Request(); // 
-            reqRes.response = "Login invalido"
-            reqRes.miCanal = null; 
+        thread (clavePrincipal, reqSesion){
+            Bool mantenerSesion = true; 
+            String id = reqSesion.id;
+            canalCliente = reqSesion.channel;
+                
+            Request reqRes = new Request(); 
+            
             if (!validar(id)){
+                reqRes.response = "Login invalido"
+                reqRes.miCanal = null; 
                 canalCliente.send(reqRes)
                 return 
             }
+
             reqRes.response = "Login valido"; 
             reqRes.miCanal = new Channel(); 
-            // genero claves
-            Clave clavePrincipal = null; 
-            historial = historialDeUsuarios.receive();
-            for id, clave in historial: 
-                if (id == userId) {
-                    clavePrincipal = clave; 
-                }
-            if (clavePrincipal == null){
-                clavePrincipal = generar_clave()
-                historial.append((userId, clavePrincipal))
-            } 
-            historialDeUsuarios.send(historial)
-            Clave claveSecundaria = generar_clave()
-            
             canalCliente.send(reqRes)
-            Request req =  miCanal.receive()                     
-            List<Documento> documentos = req.documentos
-            List<Documento> documentosFirmados = [];
-            Clave claveElegida = req.tipoDeClave == "principal" ? clavePrinicipal : claveSecundaria  
-            for doc in documentos: 
-                documentosFirmados.append(certificar_digitalmente(doc, claveElegida))
-            Request docsYLogout = new Request()
-            docsYLogout.documentosFirmados = documentosFirmadosM 
-            cananLogout = new Channel()
-            docsYLogout.canalLogout = canalLogout
-            req.canalCliente.send(docsYLogout)
-            canalLogout.receive()
+
+            Clave claveSecundaria = generar_clave()
+
+            while (mantenerSesion){
+                Request req = miCanal.receive() 
+                if (req.cerrarSesion){
+                    mantenerSesion = false; 
+                    continue;
+                }                
+                Documento doc = req.documento
+                Clave claveElegida = req.tipoDeClave == "principal" ? clavePrinicipal : claveSecundaria  
+               
+                miCanal.send(certificar_digitalmente(doc, claveElegida))
+            }
         }
     }
-
 }
 
-// b)
 
+// b)
 Channel canalSesiones = new Channel()
+
 process ServidorFirmas(){
-    Channel historialDeUsuarios = new Channel();
-    Map<(id, clavePrincipal)> historial = [];
-    historialDeUsuarios.send(historial)
+    Clave clavePrincipal = generar_clave()
+    Channel canalClavePrincipal = new Channel()
+    canalClavePrincipal.send(clavePrincipal)
     while (true){
         reqSesion = canalSesiones.receive()
-        thread (reqSesion, historialDeUsuarios){
-            // reqSesion tiene el userId, el canal del cliente y si quiere actualizar la contraseña
-            userId = reqSesion.id
-            canalCliente = reqSesion.channel
-
-            Request reqRes = new Request(); // 
-            reqRes.response = "Login invalido"
-            reqRes.miCanal = null; 
+        thread (canalClavePrincipal, reqSesion){
+            Bool mantenerSesion = true; 
+            String id = reqSesion.id;
+            canalCliente = reqSesion.channel;
+                
+            Request reqRes = new Request(); 
+            
             if (!validar(id)){
+                reqRes.response = "Login invalido"
+                reqRes.miCanal = null; 
                 canalCliente.send(reqRes)
                 return 
             }
             reqRes.response = "Login valido"; 
             reqRes.miCanal = new Channel(); 
-
-            Clave clavePrincipal = null; 
-            historial = historialDeUsuarios.receive();
-            
-            case lookupM userId historial of
-                    Nothing ->  clavePrincipal = generar_clave(); 
-                                historial.append((userId, clavePrincipal)); 
-                    Just clave -> if (reqRes.quiereNuevaClave) { clave = generar_clave() }; 
-                                  clavePrincipal = clave;  
-
-            historialDeUsuarios.send(historial)
+            canalCliente.send(reqRes)
 
             Clave claveSecundaria = generar_clave()
+            
+            while (mantenerSesion){
+                Clave clavePrincipal = canalClavePrincipal.receive();
+                canalClavePrincipal.send(clavePrincipal)
 
-            canalCliente.send(reqRes)
-            Request req =  miCanal.receive()   
-            List<Documento> documentos = req.documentos
-            List<Documento> documentosFirmados = [];
-            Clave claveElegida = req.tipoDeClave == "principal" ? clavePrinicipal : claveSecundaria  
-            for doc in documentos: 
-                documentosFirmados.append(certificar_digitalmente(doc, claveElegida))
-            Request docsYLogout = new Request()
-            docsYLogout.documentosFirmados = documentosFirmadosM 
-            cananLogout = new Channel()
-            docsYLogout.canalLogout = canalLogout
-            req.canalCliente.send(docsYLogout)
-            canalLogout.receive()
+                Request req = miCanal.receive() 
+                if (req.cerrarSesion){
+                    mantenerSesion = false; 
+                    continue;
+                }                
+                if (req.actualizarClavePrincipal) {
+                    canalClavePrincipal.receive();
+                    clavePrincipal = generar_clave()
+                    canalClavePrincipal.send(clavePrincipal)
+                }
+                Documento doc = req.documento
+                Clave claveElegida = req.tipoDeClave == "principal" ? clavePrincipal : claveSecundaria  
+               
+                miCanal.send(certificar_digitalmente(doc, claveElegida))
+            }
         }
     }
 }
