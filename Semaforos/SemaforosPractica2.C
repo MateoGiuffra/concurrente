@@ -61,3 +61,57 @@ thread persona {
     // se baja y lo indica
     personasABordo.release()
 }
+
+// 10
+global Semaphore puente = new Semaphore(1);
+global JSON cantAutos = {
+    "izq": 0,
+    "der": 0
+};
+
+// dir: "izq" | "der"
+thread Auto (dir) { 
+    mutex.acquire();
+
+    cantAutos[dir]++;
+    if (cantAutos[dir] == 1){
+        permisoPuente.acquire();
+    }
+    mutex.release();
+    
+    // cruzo puente
+
+    mutex.acquire();
+    cantAutos[dir]--;
+    if (cantAutos[dir] == 0){
+        permisoPuente.release();
+    }
+    mutex.release();
+}
+//b
+global Semaphore puente = new Semaphore(3);
+global JSON cantAutos = {
+    "izq": 0,
+    "der": 0
+};
+
+// dir: "izq" | "der"
+thread Auto (dir) { 
+    String dirOpuesta = dir == "izq" ? "der" : "izq"
+    
+    mutex.acquire();
+    cantAutos[dir]++;
+    if (cantAutos[dir] == 1){
+        permisoPuente.acquire();
+    }
+    mutex.release();
+    
+    // cruzo puente
+
+    mutex.acquire();
+    cantAutos[dir]--;
+    if (cantAutos[dir] == 0){
+        permisoPuente.release();
+    }
+    mutex.release();
+}

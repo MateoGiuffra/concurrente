@@ -63,26 +63,27 @@ process ServidorFirmas(){
                 canalCliente.send(reqRes)
                 return 
             }
-            reqRes.response = "Login valido"; 
-            reqRes.miCanal = new Channel(); 
+
+            Channel miCanal = new Channel();  
+            reqRes.miCanal = miCanal; 
+            reqRes.response = "Login valido";
             canalCliente.send(reqRes)
 
             Clave claveSecundaria = generar_clave()
             
             while (mantenerSesion){
-                Clave clavePrincipal = canalClavePrincipal.receive();
-                canalClavePrincipal.send(clavePrincipal)
-
                 Request req = miCanal.receive() 
                 if (req.cerrarSesion){
                     mantenerSesion = false; 
                     continue;
-                }                
-                if (req.actualizarClavePrincipal) {
-                    canalClavePrincipal.receive();
-                    clavePrincipal = generar_clave()
-                    canalClavePrincipal.send(clavePrincipal)
                 }
+
+                Clave clavePrincipal = canalClavePrincipal.receive();
+                if (req.actualizarClavePrincipal) {
+                    clavePrincipal = generar_clave()
+                }
+                canalClavePrincipal.send(clavePrincipal)
+
                 Documento doc = req.documento
                 Clave claveElegida = req.tipoDeClave == "principal" ? clavePrincipal : claveSecundaria  
                

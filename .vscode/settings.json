@@ -27,7 +27,9 @@
         "Prioridad-Escritores.C": "cpp",
         "AgenciaDeViajesMio.C": "cpp",
         "SemaforosPractica2.C": "cpp",
-        "Semaforos.C": "cpp"
+        "Semaforos.C": "cpp",
+        "Camillas.C": "cpp",
+        "Donaciones.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "github.copilot.enable": {
