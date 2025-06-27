@@ -68,7 +68,7 @@ global JSON cantAutos = {
     "izq": 0,
     "der": 0
 };
-
+a a a ====b=b=b= b b b   
 // dir: "izq" | "der"
 thread Auto (dir) { 
     mutex.acquire();
@@ -88,16 +88,24 @@ thread Auto (dir) {
     }
     mutex.release();
 }
+
 //b
-global Semaphore puente = new Semaphore(3);
+global Semaphore puente = new Semaphore(1);
 global JSON cantAutos = {
     "izq": 0,
     "der": 0
 };
+global Semaphore semAutosIzq = new Semaphore(3);
+global Semaphore semAutosDer = new Semaphore(3);
+
+global JSON semaforos = {
+    "izq": semAutosIzq,
+    "der": semAutosDer
+};
 
 // dir: "izq" | "der"
 thread Auto (dir) { 
-    String dirOpuesta = dir == "izq" ? "der" : "izq"
+    semaforos[dir].acquire();
     
     mutex.acquire();
     cantAutos[dir]++;
@@ -114,4 +122,74 @@ thread Auto (dir) {
         permisoPuente.release();
     }
     mutex.release();
+
+    semaforos[dir].release();
+}
+
+// 8
+global int cantOficinistas = 0; 
+global Semaphore permisoToiletes = new Semaphore(8);
+global Semaphore personalDeLimpieza = new Semaphore(1);
+global Semaphore mutex = new Semaphore(1);
+
+thread Oficinista () {
+    mutex.acquiere();
+    cantOficinistas++;
+    if cantOficinistas == 1: 
+        personalDeLimpieza.acquire();
+    mutex.release();
+
+    permisoToiletes.acquire();
+    // ir al baño
+    mutex.acquiere();
+    cantOficinistas--;
+    if cantOficinistas == 0: 
+        personalDeLimpieza.release();
+    mutex.release();
+    
+    permisoToiletes.release();
+}
+
+thread Personal () {
+    personalDeLimpieza.acquire();
+    permisoToiletes.acquire();
+    // limpio
+    personalDeLimpieza.release();
+    permisoToiletes.release();
+}
+// 9
+Semaphore cargarCombustible = new Semaphore(6, true);
+Semaphore descargarCombustible = new Semaphore(1);
+Semaphore mutex = new Semaphore(1);
+Semaphore mutexCamion = new Semaphore(1);
+global int camiones = 0;
+
+thread Vehiculo () {
+    cargarCombustible.acquiere();
+    if (camiones >= 1) {
+        mutex.acquire();
+        cantVehiculosEsperando++;
+        mutex.release();
+        combustibleDescargado.acquire();
+        
+        mutex.acquire();
+        cantVehiculosEsperando--;
+        mutex.release();
+    }
+    cargarCombustible.release();
+}
+
+thread Camion () {
+    descargarCombustible.acquire();
+
+    mutexCamion.acquire();
+    camiones++;
+    mutexCamion.release();
+    // dejar combustible
+    mutexCamion.acquire();
+    camiones--;
+    mutexCamion.release();
+    combustibleDescargado.release(cantVehiculosEsperando);
+    
+    descargarCombustible.release();
 }

@@ -25,7 +25,7 @@ thread Apostador (montoInicial) {
 
         if (miApuesta == valor){
             print("Gané!");
-            monto = valor * 32;  
+            monto += valor * 32;  
         } else {
             print("Perdí!")
             monto -= miApuesta; 
@@ -40,8 +40,13 @@ thread Apostador (montoInicial) {
 thread Crupier () {
     while (true) {
         sleep(1000ms) // espera a que se unan
+        mutexCantApostadores.acquire();
+
         rondaActual.release(cantApostadores);
+        cantApostadores = 0;
         
+        mutexCantApostadores.release();
+
         valor = randint(0, 32); 
 
         noVaMasSemaforo.release(cantApostadores);

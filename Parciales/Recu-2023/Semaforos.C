@@ -49,20 +49,21 @@ thread SushiMan() {
 }
 
 // b
-Semaphore permisoAprendiz = new Semaphore(2, True)
-Semaphore lleno = new Semaphore(0)
+Semaphore permisoAprendiz = new Semaphore(2, True);
+Semaphore haySushiEnMesa = new Semaphore(0);
+Semaphore mutex = new Semaphore(1);
 
-Semaphore permisoReseniar = new Semaphore(1)
+Semaphore permisoReseniar = new Semaphore(1);
 
-Semaphore resenias = new Semaphore(1)
-Semaphore sushis = new Semaphore(1)
+Semaphore resenias = new Semaphore(1);
+Semaphore sushis = new Semaphore(1);
 
 global int cantSushis = 0
 global int cantResenias = 0
 
 // nuevo
 global int cantProductores = 0
-Semaphore inspectores = new Semaphore(1)
+Semaphore inspectores = new Semaphore(1);
 
 thread Inspector () {
     while (true) {
@@ -76,27 +77,40 @@ thread Inspector () {
 
 thread Aprendiz () { 
     while (true) {
-        vacio.requiere();
         permisoAprendiz.acquiere();
+        mutex.acquiere();
+        cantProductores++; 
+        if (cantProductores == 1) {
+            inspectores.acquire();
+        }
+        mutex.release();
+        // cocina
+        mutex.release();
+        cantProductores--; 
+        if (cantProductores == 0) {
+            inspectores.release();
+        }
+        mutex.release();
         permisoAprendiz.release();
 
-        sushis.acquiere()
+        sushis.acquiere();
         sushis++; 
-        sushis.release()
+        sushis.release();
         // yendo a la mesa 
+        haySushiEnMesa.release();
+        
         if cantResenias >= 3: 
-            resenias.acquire()
+            resenias.acquire();
             cantResenias -= 3;
-            resenias.release()
-
-        lleno.release();
+            resenias.release();
     }    
 }
 
 thread SushiMan() {
     while (true) {
-        lleno.acquiere();
-        permisoReseniar.acquiere(); 
+        permisoReseniar.acquiere();
+
+        haySushiEnMesa.acquiere();
         // come sushi 
         sushis.acquiere()
         cantSushis--;

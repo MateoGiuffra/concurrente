@@ -71,7 +71,7 @@ thread Avion (numVuelvo, destinoFijo, capacidadMaxima) {
         permisoPista.acquiere();
         // libera el permiso de la puerta
         permisoPuertas[numPuerta].release(); 
-        despegar()
+        despegar();
         // libera el permiso del despliegue
         permisoPista.release();
         // viaja a destino

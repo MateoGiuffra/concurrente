@@ -29,7 +29,8 @@
         "SemaforosPractica2.C": "cpp",
         "Semaforos.C": "cpp",
         "Camillas.C": "cpp",
-        "Donaciones.C": "cpp"
+        "Donaciones.C": "cpp",
+        "Crupier.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "github.copilot.enable": {
