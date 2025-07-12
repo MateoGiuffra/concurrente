@@ -33,3 +33,6 @@ Es una caracteristica del sistema, podes verlo como si te hiciera un notify sin 
 - Generalmente es mejor usar contador que flags (obviamente depende el caso)
 - Ante la duda pone notifyAll
 - Es mejor solucion EVITAR notifys innecesarios, pero primero hace que ande y despues hilas mas fino. 
+
+### Practica
+Creo que no termine todos los ejercicios pero la mayoria estan ahi. La verdad no le di mucha bola a monitores pero como para tener de ejercicios base te pueden ser utiles.
