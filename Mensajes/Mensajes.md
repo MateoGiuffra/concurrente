@@ -23,7 +23,7 @@ Buzones donde dejas y sacas mensajes. Poseen dos methods principales: `send(T)` 
 
 Hay 3:
 1. **Uno a uno**:
-* Un canal para solo dos process
+   * Un canal para solo dos process
 2. **Uno a muchos**: 
     * O sea cada proceso (A,B,C...) deja un mensaje en el buzón de Z y Z solo recibe, no le interesa quién manda.
 3. **Muchos a muchos**:
