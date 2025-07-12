@@ -1,5 +1,4 @@
 ## Mensajes 
-##### [ TEMA ACTUAL ]
 
 ### Thread vs Process
 
@@ -9,10 +8,10 @@
 * Comparten la misma instancia de memoria
 * Tienen la posibilidad de compartir memoria entre ellos
 
-#### Proceso
+#### Process
 
-* Instancias de memoria distintas
-
+* Instancias de memoria distintas (entre otros process)
+* Normalmente se crean threads dentro de un Process (tambien se puede dentro de threads)
 
 ### Canales
 
@@ -23,15 +22,20 @@ Buzones donde dejas y sacas mensajes. Poseen dos methods principales: `send(T)` 
 #### Estrategias
 
 Hay 3:
-
 1. **Uno a uno**:
 * Un canal para solo dos process
 2. **Uno a muchos**: 
     * O sea cada proceso (A,B,C...) deja un mensaje en el buzón de Z y Z solo recibe, no le interesa quién manda.
 3. **Muchos a muchos**:
-
     * Hay un buzón donde todos los procesos dejan un mensaje y lo puede agarrar cualquiera, no es definido.
-    * Esta es la que nos interesa y se llama **asíncronica**
+
+### Sincronico vs asincronico
+* Cuando estamos en contexto **sincrónico**, los métodos son **bloqueantes**, por lo tanto el `send` espera un `receive` y el `receive` espera un `send`.
+* En cambio en **asincrónica** solo el `receive` es bloqueante.
+
+### ¿Qué nos interesa a nosotros?
+- Estrategia muchos a muchos
+- Canales asincronicos 
 
 #### Características
 
@@ -41,39 +45,26 @@ Hay 3:
 * Si hacés `receive` sin mensajes, espera.
 * No es costoso un channel, se pueden reutilizar.
 
-
 ### Mensajes
-
 * Es un objeto, por lo general son variables que querés compartir (ysi que va a ser).
 * Tienen que ser **serializables**, significa que la instancia de ese objeto se debe poder transformarla en string y guardarla en disco.
-* **Dato importante**: cuando necesitás exclusividad, podés mandar canales por canales porque son serializables.
+* **Dato importante**: Cuando necesitás exclusividad, podés mandar canales por canales porque son serializables.
 * Normalmente usamos `Request()` para guardar las variables porque le podés inventar campos y sus valores.
 
-
-### Sincronico vs asincronico
-
-* Cuando estamos en contexto **sincrónico**, los métodos son **bloqueantes**, por lo tanto el `send` espera un `receive` y el `receive` espera un `send`.
-* En cambio en **asincrónica** solo el `receive` es bloqueante.
-
-
 ### DATOS DE LA NOTACIÓN
-
 * En pseudocódigo, la creación de un thread necesita inicializarse con las variables que va a usar.
 * Esas variables van a ser una **copia** de cada thread y si cambia la variable padre no va a cambiar la variable del thread.
 * Antes esto se solucionaba con un canal intermedio, pero ahora se hace así.
 
 
 ### NO HACER
-
-* En contexto de mensajes, no podes, dentro de un thread, editar variables porque estarías compartiendo variables (...) y justamente aprendemos mensajes para evitar usar variables compartidas (a excepción del canal).
+* Esta prohibido dentro de un thread, editar variables que hereda de Process porque estarías compartiendo variables (...) y justamente aprendemos mensajes para evitar usar variables compartidas. Asi que la queres modificar, pasa un canal con esa/s variable/s.
 
 
 ### Tips
-
-* Si vas a generar un thread dentro de un process, chequea si podes hacer el `receive` **antes** de generarlo, en vez de un while true {thread(){...}}, porque:
+* [Dependiendo del caso] Si vas a generar un thread dentro de un process, chequea si podes hacer el `receive` **antes** de generarlo, en vez de un `while true {thread(){...}}` porque:
     * En la primera solución solo crea un thread cuando recibe
     * En la segunda los crea siempre, haciendo explotar la CPU y memoria 
-
 
 ### Hydra
 
