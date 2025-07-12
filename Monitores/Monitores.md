@@ -1,11 +1,7 @@
 ## Monitores 
 
-### Notacion
-Cuando escribimos pseudocodigo, hay dos formas: 
-#### Monitor NombreDeLaClase
-- Todos los method ya son tomados como sync
-#### Class NombreDeLaClase
-- Tenes que declarar cuales methods son sync
+### Practica
+Creo que no termine todos los ejercicios pero la mayoria estan ahi. La verdad no le di mucha bola a monitores pero como para tener de ejercicios base te pueden ser utiles.
 
 ### Teoria 
 - Un monitor tiene N methods y Condition Variables (en esta materia solo tenemos una pero pueden haber mas)
@@ -34,5 +30,9 @@ Es una caracteristica del sistema, podes verlo como si te hiciera un notify sin 
 - Ante la duda pone notifyAll
 - Es mejor solucion EVITAR notifys innecesarios, pero primero hace que ande y despues hilas mas fino. 
 
-### Practica
-Creo que no termine todos los ejercicios pero la mayoria estan ahi. La verdad no le di mucha bola a monitores pero como para tener de ejercicios base te pueden ser utiles.
+### Notación
+Cuando escribimos pseudocodigo, hay dos formas: 
+#### Monitor NombreDeLaClase
+- Todos los method ya son tomados como sync
+#### Class NombreDeLaClase
+- Tenes que declarar cuales methods son sync
