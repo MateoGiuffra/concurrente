@@ -1,3 +1,4 @@
+// Esta es mi solución
 global Semaphore serAtendido = new Sempahore(4, true);
 global Semaphore revistas = new Sempahore(10);
 global Semaphore mutexCantRevistas = new Sempahore(1);
@@ -40,3 +41,4 @@ void donarSangre() {
     camillas++;
     mutexCantCamillas.release();
 }
+

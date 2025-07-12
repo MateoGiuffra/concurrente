@@ -30,7 +30,8 @@
         "Semaforos.C": "cpp",
         "Camillas.C": "cpp",
         "Donaciones.C": "cpp",
-        "Crupier.C": "cpp"
+        "Crupier.C": "cpp",
+        "DonacionesByDani.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "github.copilot.enable": {

@@ -14,16 +14,15 @@ public class Semaphore {
             esperando++;
             wait();
         }
-
         permisos--;
     }
 
     public synchronized void release() {
-        if (esperando == 0) {
-            permisos++;
-        } else {
+        if (esperando != 0) {
             notify();
             esperando--;
+        } else {
+            permisos++;
         }
     }
 
