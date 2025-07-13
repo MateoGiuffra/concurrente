@@ -1,3 +1,8 @@
 ## Parciales de mi cursada (2025 primer cuatri)
-Estan todos los parciales que rendí (incluso recus) que aprobé junto a su solución.
-Por ejemplo el parcial de Semaforos lo desaprobe, por ende no esta aca, solo el del recu que si aprobé.  
+Estan **solo** los parciales que aprobé (incluyendo recus). Están acompañados con sus soluciónes y correcciones. 
+Por las dudas, mis notas fueron:
+- Exclusión mutua: 9
+- Semáforos (recu): 10
+- Monitores: 6
+- Mensajes (recu): 8
+
