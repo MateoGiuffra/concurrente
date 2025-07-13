@@ -13,7 +13,7 @@
 * Instancias de memoria distintas (entre otros process)
 * Normalmente se crean threads dentro de un Process (tambien se puede dentro de threads)
 
-> .[!WARNING].
+> [!WARNING]
 > Los threads que creas dentro de un process siguen vivos **mientras** el process siga vivo. No importa si los threads tienen un while true, si se muere el process se mueren sus threads porque ellos dependen del contexto donde son invocados. Si no hay contexto, ellos mueren.
 
 ### Canales
