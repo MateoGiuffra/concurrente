@@ -67,9 +67,10 @@ Ahora sí tu objetivo no es CAMBIAR el valor de esa variable, si no que la neces
 
 
 ### Tips
-* [Dependiendo del caso] Si vas a generar un thread dentro de un process, chequea si podes hacer el `receive` **antes** de generarlo, en vez de un `while true {thread(){...}}` porque:
+* Casi siempre si vas a generar un thread dentro de un process, chequea si podes hacer el `receive` **antes** de generarlo, en vez de un `while true {thread(){...}}` porque:
     * En la primera solución solo crea un thread cuando recibe
-    * En la segunda los crea siempre, haciendo explotar la CPU y memoria 
+    * En la segunda los crea siempre, haciendo explotar la CPU y memoria.
+
 
 ### Notación 
 * En pseudocódigo, la creación de un thread necesita inicializarse con las variables que va a usar.
