@@ -56,7 +56,7 @@ Hay 3:
 
 
 ### NO HACER
-* Si creas threads dentro de un process, esta prohibido dentro de esos threads editar variables que heredan del process. Ejemplo:
+Si creas threads dentro de un process, esta prohibido dentro de esos threads editar variables que heredan del process. Ejemplo:
 - process tiene la variable contador que arranca en 0.
 - Creas N threads que reciben esa variable por parámetro.
 - Dentro de cada thread haces contador++
