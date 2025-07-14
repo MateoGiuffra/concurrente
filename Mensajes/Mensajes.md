@@ -61,6 +61,7 @@ Si creas threads dentro de un process, esta prohibido dentro de esos threads edi
 - Creas N threads que reciben esa variable por parámetro.
 - Dentro de cada thread haces contador++
 - Desaprobaste.
+
 ¿Por qué? Porque estás editando una variable, que no es global pero es COMPARTIDA por varios threads y eso está prohibido en contexto de mensajes. La ÚNICA forma en la que podes editar un valor entre threads/process es usando canales y nada más.
 Ahora sí tu objetivo no es CAMBIAR el valor de esa variable, si no que la necesitas para algún if, alguna copia, etc entonces si es válido.
 
