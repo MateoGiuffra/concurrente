@@ -25,8 +25,8 @@ Su explicación estan en el mismo codigo, no voy a hacer un readme para explicar
 | Mutex  | Para evitar perdida de sumas, restas etc |
 | Split Mutex  | Cuando querés que se ejecute de forma alternada Xs operaciones. Mínimo dos semáforos, uno en 0 y otro en 1 |
 | Semaphore(0)  | Cuando necesitas que pase x accion primero antes de ejecutar otra |
-| Semaphore(N)  | Cuando tenes un número finito de semáforos y NO tiene tanta importancia conocer cual semáforo es |
-| Semaphore[N]  | Cuando tenes un número finito de semáforos y SI tiene tanta importancia conocer cual semáforo es |
+| Semaphore(N)  | Cuando tenes un número finito de semáforos y NO tiene importancia conocer cual semáforo es |
+| Semaphore[N]  | Cuando tenes un número finito de semáforos y SI tiene importancia conocer cual semáforo es |
 - Sirve mucho hacer contadores (por ej lectores y escritores lo usan)
 - **Truco del ID:** Variable global para conocer el id. Un thread al ejecutar cambia la variable global con SU ID. Envolve esto en un mutex para que otro thread no cambie al mismo tiempo la variable global. 
 - Se pueden crear semáforos internos y hasta incluso threads, es raro que una solución lo requiera pero esta bueno saberlo, por ejemplo [este ejercicio](https://github.com/MateoGiuffra/concurrente/blob/main/Semaforos/Ejercicios) se usa para evitar ifs (entre otras ventajas) y tener una flag interna. [Link a la explicación]

@@ -1,0 +1,4 @@
+### Aclaraciones
+- De Mensajes tenes que prestar atención en que NO existe un tipo Mundo, solo existe tipo Estado. O sea la funcion nuevoEstado(args) recibe un Estado y una List de tipo <(String,String)>, no recibe un Mundo. 
+- Otra aclaración, yo pregunté si era valido usar HashMap en vez de List <(String,String)> y me dijeron que si ya que la lista se comportaba como un Map basicamente.
+- De Exclusión Mutua o Monitores no se si tienen una falla o algo de este estilo, se suele avisar en el mismo parcial si algo esta mal o poco claro pero como no rendi esos recus no preste atención, asi que tene cuidado. 
