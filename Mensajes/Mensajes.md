@@ -54,14 +54,15 @@ Hay 3:
 * **Dato importante**: Cuando necesitás exclusividad, podés mandar canales por canales porque son serializables.
 * Normalmente usamos `Request()` para guardar las variables porque le podés inventar campos y sus valores.
 
-### DATOS DE LA NOTACIÓN
-* En pseudocódigo, la creación de un thread necesita inicializarse con las variables que va a usar.
-* Esas variables van a ser una **copia** de cada thread y si cambia la variable padre no va a cambiar la variable del thread.
-* Antes esto se solucionaba con un canal intermedio, pero ahora se hace así.
-
 
 ### NO HACER
-* Esta prohibido dentro de un thread, editar variables que hereda de Process porque estarías compartiendo variables (...) y justamente aprendemos mensajes para evitar usar variables compartidas. Asi que la queres modificar, pasa un canal con esa/s variable/s.
+* Si creas threads dentro de un process, esta prohibido dentro de esos threads editar variables que heredan del process. Ejemplo:
+- process tiene la variable contador que arranca en 0.
+- Creas N threads que reciben esa variable por parámetro.
+- Dentro de cada thread haces contador++
+- Desaprobaste.
+¿Por qué? Porque estás editando una variable, que no es global pero es COMPARTIDA por varios threads y eso está prohibido en contexto de mensajes. La ÚNICA forma en la que podes editar un valor entre threads/process es usando canales y nada más.
+Ahora sí tu objetivo no es CAMBIAR el valor de esa variable, si no que la necesitas para algún if, alguna copia, etc entonces si es válido.
 
 
 ### Tips
@@ -69,12 +70,12 @@ Hay 3:
     * En la primera solución solo crea un thread cuando recibe
     * En la segunda los crea siempre, haciendo explotar la CPU y memoria 
 
+### Notación 
+* En pseudocódigo, la creación de un thread necesita inicializarse con las variables que va a usar.
+* Esas variables van a ser una **copia** de cada thread y si cambia la variable padre no va a cambiar la variable del thread.
+* Antes esto se solucionaba con un canal intermedio, pero ahora se hace así.
+
+
 ### Hydra
-
-* En Hydra no se puede usar la keyword `process`, solo `thread`, pero en pseudocódigo se usa `process` porque ahora no hay memoria compartida
-
-
-### \[Dudas]
-
-**¿Cuándo creo un thread del lado del cliente?**
+* En Hydra no se puede usar la keyword `process`, solo `thread`, pero en pseudocódigo se debe usar `process` porque ahora no hay memoria compartida
 
